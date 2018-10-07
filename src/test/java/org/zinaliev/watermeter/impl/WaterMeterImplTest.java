@@ -5,8 +5,8 @@ import org.junit.Test;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.zinaliev.watermeter.impl.WaterMeterImpl.MAX_HILLS_COUNT;
 import static org.zinaliev.watermeter.impl.WaterMeterImpl.MAX_HILL_HEIGHT;
-import static org.zinaliev.watermeter.impl.WaterMeterImpl.MAX_LANDSCAPE_LEN;
 import static org.zinaliev.watermeter.impl.WaterMeterImpl.MIN_HILL_HEIGHT;
 
 public class WaterMeterImplTest {
@@ -22,7 +22,7 @@ public class WaterMeterImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testCalculateWaterAmount_OversizedLandscape_ThrowsException() {
-    waterMeter.calculateWaterAmount(new int[MAX_LANDSCAPE_LEN + 1]);
+    waterMeter.calculateWaterAmount(new int[MAX_HILLS_COUNT + 1]);
   }
 
   @Test(expected = IllegalArgumentException.class)

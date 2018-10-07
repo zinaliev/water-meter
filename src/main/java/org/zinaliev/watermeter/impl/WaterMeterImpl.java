@@ -5,7 +5,7 @@ import org.zinaliev.watermeter.WaterMeter;
 
 public class WaterMeterImpl implements WaterMeter {
 
-  public static final int MAX_LANDSCAPE_LEN = 32000;
+  public static final int MAX_HILLS_COUNT = 32000;
   public static final int MAX_HILL_HEIGHT = 32000;
   public static final int MIN_HILL_HEIGHT = 0;
 
@@ -37,23 +37,23 @@ public class WaterMeterImpl implements WaterMeter {
     int rightHillHeight;
 
     int curHillIndex;
-    int curWaterHeight = Integer.MIN_VALUE;
+    int curWaterDepth = Integer.MIN_VALUE;
 
     while (rightHillIndex - leftHillIndex > 1) {
 
-      leftHillHeight = Math.max(landscape[leftHillIndex], curWaterHeight);
-      rightHillHeight = Math.max(landscape[rightHillIndex], curWaterHeight);
+      leftHillHeight = Math.max(landscape[leftHillIndex], curWaterDepth);
+      rightHillHeight = Math.max(landscape[rightHillIndex], curWaterDepth);
 
       if (leftHillHeight <= rightHillHeight)
         curHillIndex = ++leftHillIndex;
       else
         curHillIndex = --rightHillIndex;
 
-      curWaterHeight = Math.min(leftHillHeight, rightHillHeight);
+      curWaterDepth = Math.min(leftHillHeight, rightHillHeight);
 
       validateHillHeight(landscape, curHillIndex);
 
-      int waterDepth = curWaterHeight - landscape[curHillIndex];
+      int waterDepth = curWaterDepth - landscape[curHillIndex];
 
       if (waterDepth > 0) {
         result += waterDepth;
@@ -84,7 +84,7 @@ public class WaterMeterImpl implements WaterMeter {
     if (landscape == null)
       throw new IllegalArgumentException("landscape array can not be null");
 
-    if (landscape.length > MAX_LANDSCAPE_LEN)
-      throw new IllegalArgumentException("landscape length - " + landscape.length + " exceeds max allowed value - " + MAX_LANDSCAPE_LEN);
+    if (landscape.length > MAX_HILLS_COUNT)
+      throw new IllegalArgumentException("hills count - " + landscape.length + " exceeds max allowed value - " + MAX_HILLS_COUNT);
   }
 }
