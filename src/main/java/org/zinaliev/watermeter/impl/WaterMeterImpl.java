@@ -1,4 +1,7 @@
-package org.zinaliev.watermeter;
+package org.zinaliev.watermeter.impl;
+
+import org.zinaliev.watermeter.LandscapeVisualizer;
+import org.zinaliev.watermeter.WaterMeter;
 
 public class WaterMeterImpl implements WaterMeter {
 
@@ -6,9 +9,22 @@ public class WaterMeterImpl implements WaterMeter {
   public static final int MAX_HILL_HEIGHT = 32000;
   public static final int MIN_HILL_HEIGHT = 0;
 
+  private final LandscapeVisualizer visualizer;
+
+  public WaterMeterImpl() {
+    this(null);
+  }
+
+  public WaterMeterImpl(LandscapeVisualizer visualizer) {
+    this.visualizer = visualizer;
+  }
+
   @Override
   public long calculateWaterAmount(int[] landscape) {
     validate(landscape);
+    if (visualizer != null)
+      visualizer.registerLandscape(landscape);
+
     int result = 0;
 
     int leftHillIndex = 0;
@@ -41,6 +57,9 @@ public class WaterMeterImpl implements WaterMeter {
 
       if (waterDepth > 0) {
         result += waterDepth;
+
+        if (visualizer != null)
+          visualizer.setWaterLevel(curHillIndex, waterDepth);
       }
     }
 
@@ -48,16 +67,16 @@ public class WaterMeterImpl implements WaterMeter {
   }
 
   private void validateHillHeight(int[] landscape, int hillIndex) {
-    if(landscape.length == 0)
+    if (landscape.length == 0)
       return;
 
-    if(hillIndex < 0 || hillIndex >= landscape.length)
+    if (hillIndex < 0 || hillIndex >= landscape.length)
       return;
 
-    if(landscape[hillIndex] < MIN_HILL_HEIGHT)
+    if (landscape[hillIndex] < MIN_HILL_HEIGHT)
       throw new IllegalArgumentException("hill height at position " + hillIndex + " = " + landscape[hillIndex] + " is less than min allowed value");
 
-    if(landscape[hillIndex] > MAX_HILL_HEIGHT)
+    if (landscape[hillIndex] > MAX_HILL_HEIGHT)
       throw new IllegalArgumentException("hill height at position " + hillIndex + " = " + landscape[hillIndex] + " is grater than max allowed value");
   }
 

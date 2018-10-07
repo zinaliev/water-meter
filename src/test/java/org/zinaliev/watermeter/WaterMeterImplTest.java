@@ -1,13 +1,14 @@
 package org.zinaliev.watermeter;
 
 import org.junit.Test;
+import org.zinaliev.watermeter.impl.WaterMeterImpl;
 
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
-import static org.zinaliev.watermeter.WaterMeterImpl.MAX_HILL_HEIGHT;
-import static org.zinaliev.watermeter.WaterMeterImpl.MAX_LANDSCAPE_LEN;
-import static org.zinaliev.watermeter.WaterMeterImpl.MIN_HILL_HEIGHT;
+import static org.zinaliev.watermeter.impl.WaterMeterImpl.MAX_HILL_HEIGHT;
+import static org.zinaliev.watermeter.impl.WaterMeterImpl.MAX_LANDSCAPE_LEN;
+import static org.zinaliev.watermeter.impl.WaterMeterImpl.MIN_HILL_HEIGHT;
 
 public class WaterMeterImplTest {
 
@@ -27,12 +28,12 @@ public class WaterMeterImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testCalculateWaterAmount_MinHillHeightViolated_ThrowsException() {
-    waterMeter.calculateWaterAmount(new int[]{MIN_HILL_HEIGHT - 1, MAX_HILL_HEIGHT});
+    waterMeter.calculateWaterAmount(new int[]{MIN_HILL_HEIGHT - 1});
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testCalculateWaterAmount_MaxHillHeightViolated_ThrowsException() {
-    waterMeter.calculateWaterAmount(new int[]{MIN_HILL_HEIGHT, MAX_HILL_HEIGHT + 1});
+    waterMeter.calculateWaterAmount(new int[]{MAX_HILL_HEIGHT + 1});
   }
 
   @Test
@@ -63,11 +64,11 @@ public class WaterMeterImplTest {
   @Test
   public void testCalculateWaterAmount_DifferentHeightPitsLandscape() {
 
-//                                                                  X  ~  ~  X
-//                                                                  X  X  ~  X
-//                                                            X  ~  X  X  X  X  ~  ~  X
-//                                                            X  ~  X  X  X  X  X  X  X
-//                                                            X  X  X  X  X  X  X  X  X  X
+//                                                                  #  ~  ~  #
+//                                                                  #  #  ~  #
+//                                                            #  ~  #  #  #  #  ~  ~  #
+//                                                            #  ~  #  #  #  #  #  #  #
+//                                                            #  #  #  #  #  #  #  #  #  #
 
     assertEquals(7, waterMeter.calculateWaterAmount(new int[]{3, 1, 5, 4, 3, 5, 2, 2, 3, 1}));
   }
@@ -75,13 +76,13 @@ public class WaterMeterImplTest {
   @Test
   public void testCalculateWaterAmount_TaskLandscape() {
 
-//                                                             X  ~  ~  ~  X
-//                                                             X  ~  ~  X  X  X
-//                                                             X  ~  X  X  X  X  ~  X
-//                                                             X  X  X  X  X  X  ~  X
-//                                                             X  X  X  X  X  X  ~  X  X
+//                                                             #  ~  ~  ~  #
+//                                                             #  ~  ~  #  #  #
+//                                                             #  ~  #  #  #  #  ~  #
+//                                                             #  #  #  #  #  #  ~  #
+//                                                             #  #  #  #  #  #  ~  #  #
 
-    assertEquals(9, waterMeter.calculateWaterAmount(new int[]{ 5, 2, 3, 4, 5, 4, 0, 3, 1 }));
+    assertEquals(9, waterMeter.calculateWaterAmount(new int[]{5, 2, 3, 4, 5, 4, 0, 3, 1}));
   }
 
   private int randomHill() {
