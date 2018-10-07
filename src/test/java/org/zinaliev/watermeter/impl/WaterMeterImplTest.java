@@ -1,7 +1,6 @@
-package org.zinaliev.watermeter;
+package org.zinaliev.watermeter.impl;
 
 import org.junit.Test;
-import org.zinaliev.watermeter.impl.WaterMeterImpl;
 
 import java.util.Random;
 
