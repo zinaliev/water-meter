@@ -33,27 +33,27 @@ public class WaterMeterImpl implements WaterMeter {
     validateHillHeight(landscape, leftHillIndex);
     validateHillHeight(landscape, rightHillIndex);
 
-    int leftHillHeight;
-    int rightHillHeight;
+    int leftEdgeHillHeight;
+    int rightEdgeHillHeight;
 
     int curHillIndex;
-    int curWaterDepth = Integer.MIN_VALUE;
+    int curWaterLevel = Integer.MIN_VALUE;
 
     while (rightHillIndex - leftHillIndex > 1) {
 
-      leftHillHeight = Math.max(landscape[leftHillIndex], curWaterDepth);
-      rightHillHeight = Math.max(landscape[rightHillIndex], curWaterDepth);
+      leftEdgeHillHeight = Math.max(landscape[leftHillIndex], curWaterLevel);
+      rightEdgeHillHeight = Math.max(landscape[rightHillIndex], curWaterLevel);
 
-      if (leftHillHeight <= rightHillHeight)
+      if (leftEdgeHillHeight <= rightEdgeHillHeight)
         curHillIndex = ++leftHillIndex;
       else
         curHillIndex = --rightHillIndex;
 
-      curWaterDepth = Math.min(leftHillHeight, rightHillHeight);
+      curWaterLevel = Math.min(leftEdgeHillHeight, rightEdgeHillHeight);
 
       validateHillHeight(landscape, curHillIndex);
 
-      int waterDepth = curWaterDepth - landscape[curHillIndex];
+      int waterDepth = curWaterLevel - landscape[curHillIndex];
 
       if (waterDepth > 0) {
         result += waterDepth;
